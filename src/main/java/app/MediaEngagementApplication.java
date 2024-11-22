@@ -3,8 +3,6 @@ package app;
 import model.PostEngagement;
 import utils.*;
 
-import utils.PostUtils;
-
 public class MediaEngagementApplication {
     public static void main(String[] args) {
         // Part 1.1&2:
@@ -34,18 +32,57 @@ public class MediaEngagementApplication {
         // Part 1.3 final solution:
         String mostEngagedPost = PostUtils.findMax(engagementMap);
         System.out.println("The post with the most engagements is: " + mostEngagedPost);
-        System.out.println("");
+        System.out.println();
 
         // Part 1.4 final solution:
         String postToBeFound = "P004";
         getEngagementsForPost(postEngagements, postToBeFound);
+
+        // Part 2.1 Read in new file of data
+        PostEngagement[] engagementDataset2 = FileHandlingUtilities.readPostEngagementFile("datasets/engagements_2" +
+                ".txt");
+
+        // Setting up solution to part 2.2 & 2.3
+        PostEngagementMap postEngagements2 = new PostEngagementMap();
+        for (int i = 0; i < engagementDataset2.length; i++) {
+            updatePostEngagements(postEngagements2, engagementDataset2[i]);
+        }
+
+        // Part 2.2 solution:
+        // Find intersection between first and second datasets
+        String[] intersectionPosts = getIntersection(postEngagements2, postEngagements);
+        if (intersectionPosts.length == 0) {
+            System.out.println("No posts from dataset2 appear in dataset1.");
+        } else {
+            // Display the information from the array
+            System.out.println("--------------------------------------");
+            System.out.println("\tPosts in both Datasets:");
+            System.out.println("--------------------------------------");
+            for (int i = 0; i < intersectionPosts.length; i++) {
+                System.out.println(intersectionPosts[i]);
+            }
+            System.out.println("--------------------------------------\n");
+        }
+    }
+
+    private static String[] getIntersection(PostEngagementMap postEngagements2, PostEngagementMap postEngagements) {
+        String[] intersectionPosts = new String[postEngagements2.size()];
+        int intersectionCount = 0;
+        String[] postIds = postEngagements2.getKeys();
+        for (int i = 0; i < postIds.length; i++) {
+            if (postEngagements.get(postIds[i]) != null) {
+                intersectionPosts[intersectionCount++] = postIds[i];
+            }
+        }
+
+        return PostUtils.shrink(intersectionPosts, intersectionCount);
     }
 
     private static void getEngagementsForPost(PostEngagementMap postEngagements, String postToBeFound) {
         EngagementSet relatedEngagements = postEngagements.get(postToBeFound);
-        if(relatedEngagements == null){
+        if (relatedEngagements == null) {
             System.out.println("No engagements for post " + postToBeFound + ".");
-        }else{
+        } else {
             // Display the information from the array
             System.out.println("--------------------------------------");
             System.out.println("\t\tEngagements for Post " + postToBeFound + ":");
@@ -65,7 +102,7 @@ public class MediaEngagementApplication {
         EngagementSet engagementsForPost = postEngagements.get(currentPost);
 
         // If the post hasn't been engaged with before, add it to the map and give it a blank set
-        if(engagementsForPost == null){
+        if (engagementsForPost == null) {
             engagementsForPost = new EngagementSet();
             postEngagements.put(currentPost, engagementsForPost);
         }
@@ -82,17 +119,17 @@ public class MediaEngagementApplication {
         UserEngagementMap postUsers = engagementMap.get(currentPost);
 
         // If the post hasn't been engaged with before, add it to the map and give it a blank user map
-        if(postUsers == null){
+        if (postUsers == null) {
             postUsers = new UserEngagementMap();
             engagementMap.put(engagements[i].getPostId(), postUsers);
         }
 
         // If this user hasn't already been added
         Integer engagementCount = postUsers.get(currentUser);
-        if(engagementCount == null){
+        if (engagementCount == null) {
             postUsers.put(currentUser, 1);
-        }else{
-            postUsers.put(currentUser, (engagementCount+1));
+        } else {
+            postUsers.put(currentUser, (engagementCount + 1));
         }
     }
 

@@ -63,4 +63,22 @@ public class PostUtils {
 
         return mostEngagedPost;
     }
+
+    public static String [] shrink(String [] data, int count){
+        if(data == null){
+            throw new IllegalArgumentException("Array cannot be null");
+        }
+
+        if(count < 0 || count > data.length){
+            throw new IndexOutOfBoundsException("Number of elements to be retained cannot be less than 0 or greater " +
+                    "than the length of the supplied array.");
+        }
+
+        String [] reduced = new String[count];
+        for (int i = 0; i < reduced.length; i++) {
+            reduced[i] = data[i];
+        }
+
+        return reduced;
+    }
 }
