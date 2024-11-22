@@ -3,7 +3,7 @@ package utils;
 import model.PostEngagement;
 
 import java.time.LocalDateTime;
-
+@SuppressWarnings("unused")
 public class PostUtils {
     public static PostEngagement parsePostEngagement(String line){
         String [] components = line.split("%%");
