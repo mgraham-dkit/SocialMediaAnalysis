@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @SuppressWarnings("unused")
-public class PostEngagement{
+public class PostEngagement implements Comparable<PostEngagement>{
     public final static DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private final String postId;
     private final String userId;
@@ -80,5 +80,9 @@ public class PostEngagement{
         result = 31 * result + timestamp.hashCode();
         result = 31 * result + type.hashCode();
         return result;
+    }
+
+    public int compareTo(PostEngagement other){
+        return this.timestamp.compareTo(other.timestamp);
     }
 }
