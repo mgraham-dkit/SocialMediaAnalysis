@@ -43,4 +43,24 @@ public class PostUtils {
         data[pos1] = data[pos2];
         data[pos2] = temp;
     }
+
+    public static String findMax(PostUserMap engagementMap){
+        if(engagementMap == null || engagementMap.size() == 0){
+            throw new IllegalArgumentException("Map to be analysed cannot be null or empty");
+        }
+
+        String [] postIds = engagementMap.getKeys();
+
+        int maxEngagements = engagementMap.get(postIds[0]).size();
+        String mostEngagedPost = postIds[0];
+        for (int i = 1; i < postIds.length; i++) {
+            int postCount = engagementMap.get(postIds[i]).size();
+            if(postCount > maxEngagements){
+                maxEngagements = postCount;
+                mostEngagedPost = postIds[i];
+            }
+        }
+
+        return mostEngagedPost;
+    }
 }
