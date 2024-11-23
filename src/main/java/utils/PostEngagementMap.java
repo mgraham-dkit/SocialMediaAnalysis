@@ -1,7 +1,5 @@
 package utils;
 
-import model.PostEngagement;
-
 import java.util.ArrayList;
 
 public class PostEngagementMap {
