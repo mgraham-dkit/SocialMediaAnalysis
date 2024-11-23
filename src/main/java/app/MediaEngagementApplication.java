@@ -30,8 +30,8 @@ public class MediaEngagementApplication {
         }
 
         // Part 1.3 final solution:
-        String mostEngagedPost = PostUtils.findMax(engagementMap);
-        System.out.println("The post with the most engagements is: " + mostEngagedPost);
+        String mostEngagedPost = PostUtils.findMaxUniqueUsers(engagementMap);
+        System.out.println("The post with the most users engaging is: " + mostEngagedPost);
         System.out.println();
 
         // Part 1.4 final solution:
@@ -63,6 +63,11 @@ public class MediaEngagementApplication {
             }
             System.out.println("--------------------------------------\n");
         }
+
+        // Part 2.3 solution:
+        mostEngagedPost = PostUtils.findMaxEngagements(postEngagements, postEngagements2, intersectionPosts);
+        System.out.println("The post with the most engagements is: " + mostEngagedPost);
+        System.out.println();
     }
 
     private static String[] getIntersection(PostEngagementMap postEngagements2, PostEngagementMap postEngagements) {

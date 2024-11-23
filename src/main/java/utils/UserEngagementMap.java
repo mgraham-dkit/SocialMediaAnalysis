@@ -57,7 +57,7 @@ public class UserEngagementMap {
         // If slot/bucket is null, it has never been used.
         // Add a new list and add new Entry
         if (map[pos] == null) {
-            map[pos] = new ArrayList<Entry>();
+            map[pos] = new ArrayList<>();
         }
 
         Entry newEntry = new Entry(key, value);

@@ -44,7 +44,7 @@ public class PostUtils {
         data[pos2] = temp;
     }
 
-    public static String findMax(PostUserMap engagementMap){
+    public static String findMaxUniqueUsers(PostUserMap engagementMap){
         if(engagementMap == null || engagementMap.size() == 0){
             throw new IllegalArgumentException("Map to be analysed cannot be null or empty");
         }
@@ -62,6 +62,80 @@ public class PostUtils {
         }
 
         return mostEngagedPost;
+    }
+
+    public static String findMaxEngagements(PostEngagementMap dataset1Posts, PostEngagementMap dataset2Posts,
+                                            String [] intersection){
+        if(dataset1Posts == null || dataset2Posts == null){
+            throw new IllegalArgumentException("Map to be analysed cannot be null");
+        }
+
+        if(intersection == null){
+            throw new IllegalArgumentException("Intersection array cannot be null");
+        }
+
+        if(dataset1Posts.size() == 0 && dataset2Posts.size() == 0){
+            throw new IllegalArgumentException("Maps to be analysed cannot both be empty.");
+        }
+
+        // If the first one is empty, replace it with the second one & empty the second one
+        if(dataset1Posts.size() == 0){
+            dataset1Posts = dataset2Posts;
+            dataset2Posts = new PostEngagementMap();
+        }
+
+        String [] postIds = dataset1Posts.getKeys();
+
+        int maxEngagements = 0;
+        String mostEngagedPost = null;
+
+        for (int i = 0; i < postIds.length; i++) {
+            EngagementSet engagements = dataset1Posts.get(postIds[i]);
+            int currentCount = engagements.size();
+            if(contains(intersection, postIds[i])){
+                engagements = dataset2Posts.get(postIds[i]);
+                currentCount += engagements.size();
+            }
+
+            if(currentCount >= maxEngagements){
+                mostEngagedPost = postIds[i];
+                maxEngagements = currentCount;
+            }
+        }
+
+        if(dataset2Posts.size() > 0) {
+            postIds = dataset2Posts.getKeys();
+            for (int i = 0; i < postIds.length; i++) {
+                if (!contains(intersection, postIds[i])) {
+                    EngagementSet engagements = dataset2Posts.get(postIds[i]);
+                    int currentCount = engagements.size();
+
+                    if (currentCount >= maxEngagements) {
+                        mostEngagedPost = postIds[i];
+                        maxEngagements = currentCount;
+                    }
+                }
+            }
+        }
+
+        return mostEngagedPost;
+    }
+
+    public static boolean contains(String [] data, String text){
+        if(data == null){
+            throw new IllegalArgumentException("Array cannot be null");
+        }
+
+        if(text == null){
+            throw new IllegalArgumentException("Text to be found cannot be null");
+        }
+
+        for (int i = 0; i < data.length; i++) {
+            if(text.equals(data[i])){
+                return true;
+            }
+        }
+        return false;
     }
 
     public static String [] shrink(String [] data, int count){
