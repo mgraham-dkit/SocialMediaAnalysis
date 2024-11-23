@@ -128,21 +128,6 @@ public class PostUserMap {
         return values;
     }
 
-    public void display() {
-        for (int i = 0; i < map.length; i++) {
-            if (map[i] == null) {
-                System.out.println("Slot " + i + ") Null");
-                continue;
-            }
-
-            System.out.println("Slot " + i + ")");
-            for (int j = 0; j < map[i].size(); j++) {
-                Entry currentEntry = map[i].get(j);
-                System.out.println("Entry " + j + " -> " + currentEntry);
-            }
-        }
-    }
-
     private static class Entry{
         String key;
         UserEngagementMap value;
